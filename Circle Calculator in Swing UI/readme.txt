@@ -1,3 +1,5 @@
+Here in this Program, you'll find examples of Inheritance and Polymorphism. Such as CircleN class inherited by the Sphere class and here it overrides the ShowCharacteristics() method. This program also provides the Swing UI and ActionListener handling. All the UI is coded here.
+
 Create Net Beans application and then add a design frame for the application which is given below:
  
 

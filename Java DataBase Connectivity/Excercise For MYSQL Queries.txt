@@ -1,0 +1,110 @@
+Excercise For MYSQL Queries
+
+(1)
+Write a SQL statement to display all the information of all salesmen.  
+
+MySql Commands:
+create database if not exists salesmanInfo;
+ 
+use salesmanInfo;
+ 
+drop table if exists salesman;
+create table salesman (
+   id int,
+   names varchar(50),
+   city varchar(50),
+   commission float,
+   primary key (id));
+
+
+insert into salesman values (5001,'James Hoog','New York',0.15);
+insert into salesman values (5002,'Nail Knite','Paris',0.13);
+insert into salesman values (5005,'Pit Alex','London',0.11);
+insert into salesman values (5006,'Mc Lyon','Paris',0.14);
+insert into salesman values (5003,'Lauson Hen','Pakistan',0.12);
+insert into salesman values (5007,'Paul Adam','Rome',0.13);
+
+  
+ 
+(2)
+Write a SQL statement to display specific columns like name and commission for all the salesmen. 
+Sample table: salesman 
+
+MySql Commands:
+SELECT names, commission FROM salesman;
+
+
+(3)
+Write a SQL statement to display names and city of salesman, who belongs to the city of Paris.
+
+MySql Commands:
+SELECT name,city FROM salesman WHERE city='Paris';
+ 
+
+(4)
+Write a SQL statement to display all the information for those customers with a grade of 200.
+
+MySql Commands:
+create database if not exists customerInfo;
+ 
+use customerInfo;
+ 
+drop table if exists c;
+create table customer (
+   customer_id int,
+   cust_name varchar(50),
+   city varchar(50),
+   grade int,
+   primary key (customer_id));
+
+insert into customer values (3002,'Nick Rimando','New York',100);
+insert into customer values (3005,'Graham Zusi','California',200);
+insert into customer values (3001,'Brad Guzan','London',);
+insert into customer values (3004,'Fabian Johns','Paris',300);
+insert into customer values (3007,'Brad Davis','New York',200);
+insert into customer values (3009,'Geoff Camero','Berlin',100);
+
+SELECT *FROM customer WHERE grade=200; // query
+
+
+(5)
+Write a query in SQL to find the data of employees whose last name is 'Snares'.
+Sample table: emp_details.
+
+MySql Commands:
+create database if not exists emp_detailsInfo;
+ 
+use emp_detailsInfo;
+ 
+drop table if exists emp_details;
+create table emp_details (
+   EMP_IDNO int,
+   EMP_FNAME varchar(50),
+   EMP_LNAME varchar(50),
+   EMP_DEPT int,
+   primary key (EMP_IDNO));
+
+
+insert into emp_details values (127323,'Michale','Robbin',57);
+insert into emp_details values (526689,'Carlos','Snares',63);
+insert into emp_details values (843795,'Enric','Dosio',57);
+insert into emp_details values (328717,'Jhon','Snares',63);
+insert into emp_details values (444527,'Joseph','Dosni',47);
+insert into emp_details values (659831,'Zanifer','Emily',47);
+insert into emp_details values (847674,'Kuleswar','Sitaraman',57);
+insert into emp_details values (748681,'Henrey','Gabriel',47);
+insert into emp_details values (555935,'Alex','Manuel',57);
+insert into emp_details values (539569,'George','Mardy',27);
+insert into emp_details values (733843,'Mario','Saule',63);
+insert into emp_details values (631548,'Alan','Snappy',27);
+insert into emp_details values (839139,'Maria','Foster',57);
+
+SELECT * FROM emp_details WHERE emp_lname= 'Snares';
+
+
+
+(6)
+Write a query in SQL to display all the data of employees that work in the department 57.
+
+MySql Commands:
+SELECT * FROM emp_details WHERE emp_dept= 57;

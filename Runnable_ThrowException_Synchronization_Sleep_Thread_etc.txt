@@ -1,0 +1,467 @@
+// Question 1: Write a program
+// for the fruit market.The farmer will be able to produce different types of fruits(apple, orange, grape, and watermelon), and put them in the market to sell.The market has limited capacity and farmers have to stand in a queue
+// if the capacity is exceeded to sell their fruits.Consumers can come to the market any time and purchase their desired fruits;
+// and
+// if the fruits they want to buy runs out, they are willing to wait until the supply of that kind is ready.(Hint: implementing this market will encounter the producer and consumer problem, and it probably needs multiple buffers
+//     for different kinds of fruits).
+
+// Program:
+    
+package fruitmarket;
+import java.util.Random;
+/**
+ *
+ * @author Nabeel Ahmed Siddiqi - https://github.com/nabeelsiddiquidev97
+ */
+class fruits {
+    int n;
+    boolean value = false;
+    synchronized void put(int n) {
+        String[] fruits = {
+            "Apple",
+            "Orange",
+            "Grapes",
+            "Watermelon"
+        };
+        String random = (fruits[new Random().nextInt(fruits.length)]);
+        while (value)
+            try {
+                wait();
+            } catch (InterruptedException e) {}
+        this.n = n;
+        value = true;
+        //for(int i=0;i<n;i++){
+        System.out.println(random);
+        notify();
+    }
+
+    synchronized int get() {
+        while (!value)
+            try {
+                wait();
+            } catch (InterruptedException e) {}
+        System.out.println("Consumer Got");
+        value = false;
+        notify();
+        return n;
+
+    }
+}
+
+
+class farmer implements Runnable {
+    fruits f;
+    farmer(fruits f) {
+        this.f = f;
+        new Thread(this, "farmer").start();
+    }
+    public void run() {
+        int i = 0;
+        while (true) {
+            f.put(i++);
+        }
+    }
+}
+
+class Consumer implements Runnable {
+    fruits f;
+    Consumer(fruits f) {
+        this.f = f;
+        new Thread(this, "Consumer").start();
+    }
+    public void run() {
+        while (true) {
+            f.get();
+        }
+    }
+}
+
+public class Fruitmarket {
+    public static void main(String[] args) {
+        fruits f = new fruits();
+        new farmer(f);
+        new Consumer(f);
+    }
+
+}
+
+// Output:
+// Watermelon
+// Consumer Got
+// Apple
+// Consumer Got
+// Apple
+// Consumer Got
+// Watermelon
+// Consumer Got
+// Grapes
+// Consumer Got
+// Grapes
+// Consumer Got
+// Apple
+// Consumer Got
+// Apple
+// Consumer Got
+// Apple
+// Consumer Got
+// Orange
+// Consumer Got
+
+
+
+
+
+
+
+
+// Question 2: Write a Java program that implements a multi - thread application that has three threads.First thread generates random integer every 1 second and
+// if the value is even, second thread computes the square of the number and prints.If the value is odd, the third thread will print the value of cube of the number
+
+
+
+
+// Program:
+
+package javaapplication58;
+/**
+ *
+ * @author Nabeel Ahmed Siddiqi - https://github.com/nabeelsiddiquidev97
+ */
+class random extends Thread {
+
+    public void run() {
+        for (int i = 0; i < 5; i++) {
+            double y = Math.floor(Math.random() * 100);
+            System.out.println(y);
+            if (y % 2 == 0)
+                new Thread(new even(y)).start();
+            else
+                new Thread(new odd(y)).start();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {}
+        }
+    }
+}
+
+class even extends Thread {
+    double x;
+    even(double x) {
+        this.x = x;
+    }
+    public void run() {
+        System.out.println("Even Thread " + "***Square: " + (x * x) + "***");
+    }
+}
+
+class odd extends Thread {
+    double x;
+    public odd(double x) {
+        this.x = x;
+    }
+    public void run() {
+        System.out.println("Odd Thread " + "***Cube: " + (x * x * x) + "***");
+    }
+}
+public class Nabeel_105 {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        random r = new random();
+        r.start();
+    }
+
+}
+
+
+// Output:
+//     12.0
+// Even Thread ** * Square: 144.0 ** *
+//     92.0
+// Even Thread ** * Square: 8464.0 ** *
+//     74.0
+// Even Thread ** * Square: 5476.0 ** *
+//     60.0
+// Even Thread ** * Square: 3600.0 ** *
+//     89.0
+// Odd Thread ** * Cube: 704969.0 ** *
+
+
+
+
+
+
+
+//Question 3: Write a Java program that implements a multi - thread application that has three threads.First thread generates random integer every 100 second and
+// if the value is odd, second thread computes and prints Good.If the value is even, the third thread will print Morning
+
+// Program:
+    
+package goodmorning;
+/**
+ *
+ * @author Nabeel Ahmed Siddiqi - https://github.com/nabeelsiddiquidev97
+ */
+class random extends Thread {
+
+    public void run() {
+        for (int i = 0; i < 5; i++) {
+            double y = Math.floor(Math.random() * 100);
+            System.out.println(y);
+            if (y % 2 == 0)
+                new Thread(new even()).start();
+            else
+                new Thread(new odd()).start();
+            try {
+                Thread.sleep(100000);
+            } catch (InterruptedException e) {}
+        }
+    }
+}
+
+class even extends Thread {
+    public void run() {
+        System.out.println("Even Thread " + "***Good***");
+    }
+}
+
+class odd extends Thread {
+    public void run() {
+        System.out.println("Odd Thread " + "***Morning***");
+    }
+}
+public class GoodMorning {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        random r = new random();
+        r.start();
+    }
+
+}
+
+
+// Output:
+//     46.0
+// Even Thread ** * Good ** *
+//     97.0
+// Odd Thread ** * Morning ** *
+//     42.0
+// Even Thread ** * Good ** *
+//     73.0
+// Odd Thread ** * Morning ** *
+//     94.0
+// Even Thread ** * Good ** *
+//     BUILD SUCCESSFUL(total time: 8 minutes 20 seconds)
+
+
+
+
+
+
+
+
+
+// Question 4: Write a Java program that implements a multi - thread application that has three threads.First thread generates random integer every 1 second and
+// if the value is in between 1 to 50, second thread computes and prints Good.If the value is in between 50 to 100, the third thread will print Morning
+
+
+// Program:
+
+package goodmorning2;
+/**
+ *
+ * @author Nabeel Ahmed Siddiqi - https://github.com/nabeelsiddiquidev97
+ */
+class random extends Thread {
+
+    public void run() {
+        for (int i = 0; i < 5; i++) {
+            double y = Math.floor(Math.random() * 100);
+            System.out.println(y);
+            if ((1 < y) && (y < 50))
+                new Thread(new even()).start();
+            else if ((50 < y) && (y < 100))
+                new Thread(new odd()).start();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {}
+        }
+    }
+}
+
+class even extends Thread {
+    public void run() {
+        System.out.println("Number Is b/w 1-50: " + "***Good***");
+    }
+}
+
+class odd extends Thread {
+    public void run() {
+        System.out.println("Number Is b/w 50-100: " + "***Morning***");
+    }
+}
+public class GoodMorning2 {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        random r = new random();
+        r.start();
+    }
+
+}
+
+
+// Output:
+//     43.0
+// Number Is b / w 1 - 50: ** * Good ** *
+//     97.0
+// Number Is b / w 50 - 100: ** * Morning ** *
+//     29.0
+// Number Is b / w 1 - 50: ** * Good ** *
+//     95.0
+// Number Is b / w 50 - 100: ** * Morning ** *
+//     31.0
+// Number Is b / w 1 - 50: ** * Good ** *
+//     BUILD SUCCESSFUL(total time: 5 seconds)
+
+
+
+
+
+
+
+
+// Question 5: Consider Sleeping barber problem• N customer chairs(waiting chairs)• One barber who can cut one customer’ s hair at any time• No waiting customer => barber sleeps• Customer enters => If all waiting chairs full, customer leaves• Otherwise,
+//     if barber asleep, wake up barber and make him work• Otherwise, barber is busy– wait in a chair
+// Write java synchronization code
+// for the above stated problem.
+// Program:
+    
+package sleepingbarber;
+
+/**
+ *
+ * @author Nabeel Ahmed Siddiqi - https://github.com/nabeelsiddiquidev97
+ */
+
+class barber {
+    int no_of_chairs = 4;
+    synchronized void haircut(int num) {
+        while (no_of_chairs != num)
+            try {
+                wait();
+            }
+        catch (InterruptedException e) {}
+        if (no_of_chairs < 5) {
+            ++no_of_chairs;
+        } else {
+            no_of_chairs = 1;
+        }
+        System.out.println("Barber Is Cutting hair of Customer no. " + num);
+        if (num == 0)
+            System.out.println("Barber Sleeping");
+        else if (num > no_of_chairs)
+            System.out.println("Customer Leaves");
+        notify();
+    }
+}
+
+class C1 implements Runnable {
+    barber b;
+
+    C1(barber b) {
+        this.b = b;
+        new Thread(this, "Customer 1").start();
+    }
+    public void run() {
+        int i = 1;
+        while (true) {
+            b.haircut(i);
+            System.out.println("Customer 2,Customer 3,Customer 4,Customer 5 are waiting");
+        }
+    }
+}
+class C2 implements Runnable {
+    barber b;
+
+    C2(barber b) {
+        this.b = b;
+        new Thread(this, "Customer 2").start();
+    }
+    public void run() {
+        int i = 2;
+        while (true) {
+            b.haircut(i);
+            System.out.println("Customer 1,Customer 3,Customer 4,Customer 5 are waiting");
+        }
+    }
+}
+class C3 implements Runnable {
+    barber b;
+
+    C3(barber b) {
+        this.b = b;
+        new Thread(this, "Customer 3").start();
+    }
+    public void run() {
+        int i = 3;
+        while (true) {
+            b.haircut(i);
+            System.out.println("Customer 1,Customer 2,Customer 4,Customer 5 are waiting");
+        }
+    }
+}
+class C4 implements Runnable {
+    barber b;
+
+    C4(barber b) {
+        this.b = b;
+        new Thread(this, "Customer 4").start();
+    }
+    public void run() {
+        int i = 4;
+        while (true) {
+            b.haircut(i);
+            System.out.println("Customer 1,Customer 2,Customer 3,Customer 5 are waiting");
+        }
+    }
+}
+class C5 implements Runnable {
+    barber b;
+
+    C5(barber b) {
+        this.b = b;
+        new Thread(this, "Customer 5").start();
+    }
+    public void run() {
+        int i = 5;
+        while (true) {
+            b.haircut(i);
+            System.out.println("Customer 1,Customer 2,Customer 3,Customer 4 are waiting");
+        }
+    }
+}
+public class SleepingBarber {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        barber b = new barber();
+        //new C1(b);
+        //new C2(b);
+        //new C3(b);
+        new C4(b);
+    }
+
+}
+// Output:
+//     Barber Is Cutting hair of Customer no.4
+// Customer 1, Customer 2, Customer 3, Customer 5 are waiting
